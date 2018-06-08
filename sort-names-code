@@ -1,0 +1,395 @@
+// Program by: Roshni Sharma
+ 
+#include<iostream>
+#include<string>
+#include<fstream>
+ 
+using namespace std;
+ 
+// Function prototypes
+void printDescription();
+int printMenu();
+void sortFirstName(string[], string[], string[], int);
+void sortLastName(string[], string[], string[], int);
+void displayInfo(string [], string[], string[], int);
+ 
+ 
+// Function main
+int main()
+{
+     
+    // Define variables
+    string inputFileName;       // Name of input file
+    string value;               // Any value in the file
+    int choice;                 // Menu choice entered by user
+    int numRecords;             // The number of records in the file
+    string stringSearch;        // String that user searches for
+    int limit;
+     
+     
+    // File stream object
+    ifstream inputFile;
+     
+    // Call function to print description
+    printDescription();
+     
+    // Ask the user for input file name
+    cout << endl << endl << "Please enter the name of your input file: ";
+    cin >> inputFileName;
+    cout << endl << "User entered file name " << inputFileName << ".";
+     
+    // Open the file
+    inputFile.open(inputFileName.c_str());
+     
+    // If the file doesn't open...
+    if (!inputFile) {
+        cout << endl << endl << "Error: Unable to open input file. Quitting program now.\n\n";
+        return 1;
+    }
+     
+    // If the file does open...
+    else
+    {
+        cout << endl << endl << "Input file " << inputFileName << " successfully opened.";
+         
+        // Read the first value from the file
+        inputFile >> numRecords;
+        cout << endl << endl << "This number was just read from the file: " << numRecords << ".";
+         
+        // Create arrays for names and birthdays
+        string *lastNames = new string[numRecords];
+        string *firstNames = new string[numRecords];
+        string *birthdays = new string[numRecords];
+         
+        // Create arrays for copy of names and birthdays
+        string *lastNamesCOPY = new string[numRecords];
+        string *firstNamesCOPY = new string[numRecords];
+        string *birthdaysCOPY = new string[numRecords];
+         
+        // Create variables for next three items read in
+        string input1, input2, input3;
+         
+        // Read in each set of next three items and assign them to their array
+        for (int i=0; i < numRecords; i++)
+        {
+            inputFile >> input1;
+            lastNames[i] = input1;
+             
+            inputFile >> input2;
+            firstNames[i] = input2;
+             
+            inputFile >> input3;
+            birthdays[i] = input3;
+        }
+         
+        // Set the copy arrays equal to the original arrays
+        for (int m=0; m < numRecords; m++)
+        {
+            lastNamesCOPY[m] = lastNames[m];
+            firstNamesCOPY[m] = firstNames[m];
+            birthdaysCOPY[m] = birthdays[m];
+        }
+         
+         
+        cout << endl << endl << "Here are the records contained in your input file:\n\n";
+        for (int q=0; q < numRecords; q++)
+        {
+            cout << firstNames[q] << " " << lastNames[q] << " with DOB " << birthdays[q] << ".\n";
+        }
+  
+         
+        // Print the menu options
+        do
+        {
+            
+            choice = printMenu();
+             
+            // Switch statement for menu options
+            switch(choice)
+            {
+                 
+                // Option 1: Search for a string
+                case 1:
+                {
+                    cout << endl << endl;
+                     
+                    // Ask user what kind of search to perform
+                    int searchOption;   // Menu option
+                    cout << "Would you like to search for first name, last name, or birthdate?\n\n";
+                    cout << "1. First Name\n";
+                    cout << "2. Last Name\n";
+                    cout << "3. Birthdate\n\n";
+                    cout << "Enter your choice (1-3) here: ";
+                    cin >> searchOption;
+                     
+                    switch (searchOption)
+                    {
+                        case 1: {
+                            string firstNameSearch;
+                             
+                            // Ask the user what they would like to search
+                            cout << endl << endl << "Enter the string you would like to search for: ";
+                            cin >> firstNameSearch;
+                            cout << endl << endl;
+                             
+                            int firstNameExist;
+                             
+                            // Search for the substring
+                            for (int v=0; v < numRecords; v++)
+                            {
+                                firstNameExist = firstNamesCOPY[v].find(firstNameSearch);
+                                 
+                                // Print if substring exists
+                                if (firstNameExist != -1)
+                                {
+                                    cout << firstNamesCOPY[v] << " " << lastNamesCOPY[v] << " with DOB " << birthdaysCOPY[v] << ".\n";
+                                }
+                            }
+                            break;
+                        }
+                             
+                        case 2: {
+                            string lastNameSearch;
+                             
+                            // Ask the user what they would like to search
+                            cout << endl << endl << "Enter the string you would like to search for: ";
+                            cin >> lastNameSearch;
+                            cout << endl << endl;
+                             
+                            int lastNameExist;
+                             
+                            // Search for the substring
+                            for (int q=0; q < numRecords; q++)
+                            {
+                                lastNameExist = lastNamesCOPY[q].find(lastNameSearch);
+                                 
+                                // Print if substring exists
+                                if (lastNameExist != -1)
+                                {
+                                    cout << firstNamesCOPY[q] << " " << lastNamesCOPY[q] << " with DOB " << birthdaysCOPY[q] << ".\n";
+ 
+                                }
+                            }
+                            break;
+                        }
+                             
+                        case 3: {
+                            string birthdaySearch;
+                             
+                            // Ask the user what they would like to search
+                            cout << endl << endl << "Enter the string you would like to search for: ";
+                            cin >> birthdaySearch;
+                            cout << endl << endl;
+                             
+                            int birthdayExist;
+                             
+                            // Search for the substring
+                            for (int h=0; h < numRecords; h++)
+                            {
+                                birthdayExist = birthdaysCOPY[h].find(birthdaySearch);
+                                 
+                                // Print if substring exists
+                                if (birthdayExist != -1)
+                                {
+                                    cout << firstNamesCOPY[h] << " " << lastNamesCOPY[h] << " with DOB " << birthdaysCOPY[h] << ".\n";
+                                }
+                            }
+                            break;
+                        }
+                             
+                        default: {
+                            cout << endl << endl << "Not a valid menu option.\n\n";
+                            break;
+                        }
+                    }
+                     
+                    break;
+                }
+                 
+                // Option 2: Sort by first name
+                case 2: {
+                    sortFirstName(lastNames, firstNames, birthdays, numRecords);
+                    cout << endl << endl;
+                    displayInfo(lastNames, firstNames, birthdays, numRecords);
+                    break;
+                }
+                 
+                // Option 3: Sort by last name
+                case 3: {
+                    sortLastName(lastNames, firstNames, birthdays, numRecords);
+                    cout << endl << endl;
+                    displayInfo(lastNames, firstNames, birthdays, numRecords);
+                    break;
+                }
+                 
+                // Option 4: Print contents in original form
+                case 4: {
+                    cout << endl << endl;
+                    for (int p=0; p < numRecords; p++)
+                    {
+                        cout << firstNamesCOPY[p] << " " << lastNamesCOPY[p] << " with DOB " << birthdaysCOPY[p] << ".\n";
+ 
+                    }
+                    break;
+                }
+                 
+                // Option 5: Quit program
+                case 5: {
+                    cout << endl << endl << "Quitting program now.\n\n";
+                     
+                    // Close the input file and close program
+                    delete[] lastNames;
+                    delete[] firstNames;
+                    delete[] birthdays;
+                    inputFile.close();
+                    return 2;
+                }
+                 
+                // Default: Input validation
+                default: {
+                    cout << endl << endl << "Not a valid menu option. Please try again.\n\n";
+                    break;
+                }
+            }
+         
+        } while (choice != 5);
+    }
+     
+    return 0;
+}
+ 
+ 
+ 
+// Function to print the program description
+void printDescription()
+{
+    cout << "***********************************************" << endl;
+    cout << "This program reads in an input file of your" << endl;
+    cout << "choice. It can then perform several functions," << endl;
+    cout << "including sorting, searching, or printing the" << endl;
+    cout << "file contents in their original form." << endl;
+    cout << "***********************************************";
+     
+    return;
+}
+ 
+ 
+// Function to print menu
+int printMenu()
+{
+    int task;
+     
+    cout << endl << endl;
+    cout << "Menu options:\n";
+    cout << "***********************************************" << endl;
+    cout << "1. Search for a string\n";
+    cout << "2. Sort by first name\n";
+    cout << "3. Sort by last name\n";
+    cout << "4. Print contents in original form\n";
+    cout << "5. Quit program\n";
+    cout << "***********************************************" << endl << endl;
+    cout << "Enter your menu option (1-5) here: ";
+    cin >> task;
+     
+    return task;
+}
+ 
+ 
+// Function to sort by first name
+void sortFirstName(string lastNameArray[], string firstNameArray[], string birthdayArray[], int numOfSets)
+{
+    // Create variables for bubble sort
+    bool swap;
+    string tempFirst;
+    string tempLast;
+    string tempDOB;
+     
+    do {
+        swap = false;
+         
+        for (int count = 0; count < (numOfSets - 1); count++)
+        {
+            if (firstNameArray[count] > firstNameArray[count+1])
+            {
+                tempFirst = firstNameArray[count];
+                firstNameArray[count] = firstNameArray[count+1];
+                firstNameArray[count+1] = tempFirst;
+                 
+                // Move last name to new location
+                tempLast = lastNameArray[count];
+                lastNameArray[count] = lastNameArray[count+1];
+                lastNameArray[count+1] = tempLast;
+                 
+                // Move birthday to new location
+                tempDOB = birthdayArray[count];
+                birthdayArray[count] = birthdayArray[count+1];
+                birthdayArray[count+1] = tempDOB;
+                 
+                swap = true;
+            }
+             
+        }
+         
+    } while(swap);
+         
+     
+     
+    return;
+     
+     
+}
+ 
+ 
+ 
+// Function to sort by last name
+void sortLastName(string lastNameArray2[], string firstNameArray2[], string birthdayArray2[], int numOfSets2)
+{
+    // Create variables for bubble sort
+    bool swap;
+    string tempLast;
+    string tempFirst;
+    string tempDOB;
+     
+    do {
+        swap = false;
+         
+        for (int count = 0; count < (numOfSets2 - 1); count++)
+        {
+            if (lastNameArray2[count] > lastNameArray2[count+1])
+            {
+                tempLast = lastNameArray2[count];
+                lastNameArray2[count] = lastNameArray2[count+1];
+                lastNameArray2[count+1] = tempLast;
+                 
+                // Move first name to new location
+                tempFirst = firstNameArray2[count];
+                firstNameArray2[count] = firstNameArray2[count+1];
+                firstNameArray2[count+1] = tempFirst;
+                 
+                 
+                // Move birthday to new location
+                tempDOB = birthdayArray2[count];
+                birthdayArray2[count] = birthdayArray2[count+1];
+                birthdayArray2[count+1] = tempDOB;
+                 
+                swap = true;
+            }
+        }
+         
+    } while(swap);
+     
+    return;
+     
+     
+}
+ 
+// Function to display output
+void displayInfo(string nameLast[], string nameFirst[], string dob[], int itemCount)
+{
+    for (int y=0; y < itemCount; y++)
+    {
+        cout << nameFirst[y] << " " << nameLast[y] << " with DOB " << dob[y] << ".\n";
+    }
+     
+    return;
+ }
