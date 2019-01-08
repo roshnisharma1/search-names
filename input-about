@@ -1,0 +1,1 @@
+The first line of the input text file will contain an integer representing the number of people whose information is in the list. Each person's information will take up 3 lines, with the first line containing their first name (String), second line containing their last name (String), and their birthday (String).
