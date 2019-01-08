@@ -1,4 +1,4 @@
-// Program by: Roshni Sharma
+// This file contains the main function to run the program, along with all the code to read the input file and perform searches.
  
 #include<iostream>
 #include<string>
